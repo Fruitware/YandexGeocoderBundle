@@ -1,0 +1,8 @@
+services:
+    fruitware_yandex_geocoder.service.client:
+        class: Yandex\Geo\Api
+        arguments: ['%fruitware_yandex_geocoder.version%']
+        calls:
+            - [setToken, ['%fruitware_yandex_geocoder.key%']]
+            - [setLang, ['%fruitware_yandex_geocoder.lang%']]
+            - [setKind, ['%fruitware_yandex_geocoder.kind%']]
