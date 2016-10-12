@@ -1,0 +1,64 @@
+language: php
+
+php:
+    - 5.3
+    - 5.4
+    - 5.5
+    - 5.6
+    - 7.0
+    - hhvm
+
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache/files
+
+branches:
+  only:
+    - master
+    - /^\d+\.\d+$/
+
+env:
+    global:
+        - COMPOSER_PREFER_LOWEST=false
+        - SYMFONY_DEPRECATIONS_HELPER=weak
+        - SYMFONY_VERSION=2.3.*
+
+before_script:
+    - composer self-update
+    - composer require --no-update symfony/framework-bundle:${SYMFONY_VERSION}
+    - if [[ "$SYMFONY_VERSION" = *dev* ]]; then sed -i "s/\"MIT\"/\"MIT\",\"minimum-stability\":\"dev\"/g" composer.json; fi
+    - composer update --prefer-source `if [[ $COMPOSER_PREFER_LOWEST = true ]]; then echo "--prefer-lowest --prefer-stable"; fi`
+
+script: if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then phpunit --coverage-clover=coverage.clover; else phpunit; fi
+
+after_script:
+  - if [ "$TRAVIS_PHP_VERSION" == "5.6" ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+
+
+matrix:
+    fast_finish: true
+    include:
+        - php: 5.6
+          env: SYMFONY_VERSION=2.3.* COMPOSER_PREFER_LOWEST=true
+        - php: 5.6
+          env: SYMFONY_VERSION=3.0.* COMPOSER_PREFER_LOWEST=true
+        - php: 5.6
+          env: SYMFONY_VERSION=2.4.*
+        - php: 5.6
+          env: SYMFONY_VERSION=2.5.*
+        - php: 5.6
+          env: SYMFONY_VERSION=2.6.*
+        - php: 5.6
+          env: SYMFONY_VERSION=2.7.*
+        - php: 5.6
+          env: SYMFONY_VERSION=2.8.* SYMFONY_DEPRECATIONS_HELPER=strict
+        - php: 5.6
+          env: SYMFONY_VERSION=3.0.* SYMFONY_DEPRECATIONS_HELPER=strict
+        - php: 5.6
+          env: SYMFONY_VERSION=3.1.* SYMFONY_DEPRECATIONS_HELPER=strict
+        - php: 5.6
+          env: SYMFONY_VERSION=3.2.*@dev SYMFONY_DEPRECATIONS_HELPER=strict
+    allow_failures:
+        - env: SYMFONY_VERSION=3.2.*@dev SYMFONY_DEPRECATIONS_HELPER=strict

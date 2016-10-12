@@ -1,0 +1,29 @@
+{
+	"name": "fruitware/yandex-geocoder-bundle",
+	"license": "MIT",
+	"type": "symfony-bundle",
+	"description": "Symfony2 bundle for interactions with geo-coding Yandex.Maps",
+	"keywords": ["symfony", "bundle", "api", "yandex", "geo", "geocode", "geocoder", "maps"],
+	"require": {
+		"php": ">=5.3.9",
+		"yandex/geo": "^1.1.2",
+		"symfony/config": "^2.3.9 || ^3.0",
+		"symfony/dependency-injection": "^2.3.3 || ^3.0",
+		"symfony/http-kernel": "^2.3 || ^3.0"
+	},
+	"require-dev": {
+		"sllh/php-cs-fixer-styleci-bridge": "^2.0",
+		"symfony/phpunit-bridge": "^2.7 || ^3.0",
+		"phpunit/phpunit": "^4.8",
+		"symfony/yaml": "^2.3 || ^3.0"
+	},
+	"autoload": {
+		"psr-4": {"Fruitware\\YandexGeocoderBundle\\": ""},
+		"exclude-from-classmap": [
+			"Tests/"
+		]
+	},
+	"autoload-dev": {
+		"psr-4": {"Fruitware\\YandexGeocoderBundle\\Tests\\": "Tests/"}
+	}
+}
