@@ -1,7 +1,7 @@
 <?php
 
 $autoloads = array(
-    __DIR__.'/../vendor/autoload.php',                // travis or standalone test
+    __DIR__.'/../vendor/autoload.php', // travis or standalone test
     __DIR__.'/../../../../../../vendor/autoload.php', // symfony & composer test
 );
 
